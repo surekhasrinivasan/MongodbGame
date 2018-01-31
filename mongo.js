@@ -1,28 +1,30 @@
-// MongoDB - Level 1 Assignment 
+//MongoDB - Level 3 Assignment
 
-var db = "use myGame";
+var mongo = function(db) {
+    
+    //command that will find all monsters with an attack lower than 10
+    db.monsters.find({"Stats.Attack":{"$lt":10}});
+    
+    //command that will find all monsters with a level above 5 but below 15 inclusive
+    db.monsters.find({"Level":{"$gt":5, "$lt":15}});
+    
+    //command to find monsters that do not have the “bite” attack.
+    db.monsters.find({"Attacks":{"$ne":"Bite"}});
+    
+    //command to find monsters with levels less than 6 but only return the name, 
+    //level and health attributes
+    db.monsters.find({"Level":{"$lt":6}}, {"Name":true, "Level":true, "Health":true, "_id":false});
+    
+    //command to find all monsters who attack is between 10 and 20 but do not 
+    //include the monsters health or style
+    db.monsters.find({"Stats.Attack":{"$gte":10,"$lte":20}}, {"Health":false,"Style":false});
+    
+    //command to find out how many monsters are in the collection
+    db.monsters.find().count();
+    
+    //command to sort the collection by the monsters level with the highest level at 
+    //the top and the lowest at the bottom
+    db.monsters.find().sort({"Level":-1});
+};
 
-function monsters(name, health,lastFoughtDate, attacks,stats, db){
 
-//Javascript code that would insert the four attributes into the “monsters” collection as 
-//a new document.     
-    db.monsters.insert({
-        "Name":"Charizard",
-        "Health":78,
-        "Last fought date": new Date() ,
-        "Attacks": ["Fire", "Bite", "Scratch"],
-        "Stats": {"Attack": 84, "Defense": 78}
-    });
-    
-    //code that would console.log all the documents inside the collection.
-    db.monsters.find();
-    
-    //command that will find your monster based on a name
-    db.monsters.find({"Name":"Venusaur"});
-    
-    //command that will find a monster based on one of the attack
-     db.monsters.find({"Attacks":"Fire"});
-     
-    //command that will find a monster based on their defense stat
-    db.monsters.find({"Stats.Defense":78});
-}
